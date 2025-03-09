@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Texas Licensee Crawler Viewer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
+</head>
+<body class="bg-gray-900 text-white p-10">
+    <h1 class="text-3xl font-bold mb-4">Real-time Texas License Data</h1>
+    <div class="overflow-hidden shadow-md rounded-lg">
+        <table class="min-w-full bg-gray-800">
+            <thead class="bg-gray-700">
+                <tr id="header-row"></tr>
+            </thead>
+            <tbody id="data-table"></tbody>
+            
+            
+        </table>
+                <tr id="header-row">... ... ...</tr>
+    </div>
+    <script>
+        const socket = io();
+        
+        socket.on("initialize_data", (data) => {
+            updateTable(data);
+        });
+        
+        socket.on("update_data", (newData) => {
+            updateTable(newData, true);
+        });
+        
+        function updateTable(data, animate = false) {
+            const table = document.getElementById("data-table");
+            if (data.length > 0) {
+                const headers = Object.keys(data[0]);
+                if (!document.getElementById("header-row").hasChildNodes()) {
+                    headers.forEach(header => {
+                        const th = document.createElement("th");
+                        th.className = "p-2 text-left text-sm font-semibold text-gray-300";
+                        th.textContent = header;
+                        document.getElementById("header-row").appendChild(th);
+                    });
+                }
+                data.forEach(row => {
+                    const tr = document.createElement("tr");
+                    tr.className = "bg-gray-700 border-b border-gray-600";
+                    if (animate) {
+                        tr.classList.add("transition-transform", "transform", "translate-y-4", "opacity-0");
+                        setTimeout(() => {
+                            tr.classList.remove("translate-y-4", "opacity-0");
+                        }, 100);
+                    }
+                    headers.forEach(header => {
+                        const td = document.createElement("td");
+                        td.className = "p-2 text-gray-300";
+                        td.textContent = row[header];
+                        tr.appendChild(td, tr.children[0]);
+                    });
+                    table.prepend(tr);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
