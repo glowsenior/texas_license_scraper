@@ -18,7 +18,7 @@ import colorama
 from pathlib import Path
 from threading import Lock
 from colorama import Back, Fore, Style
-import undetected_chromedriver as uc
+import urllib3 as uc
 import urllib3
 from selenium.common.exceptions import StaleElementReferenceException, ElementClickInterceptedException
 from selenium.common import TimeoutException, NoSuchElementException
@@ -37,7 +37,7 @@ warnings.filterwarnings('ignore', category=urllib3.exceptions.InsecureRequestWar
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-search_init_filters_letters = [['B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'], ['J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q'], ['R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']]
+search_init_filters_letters = [['B', 'C', 'T'], ['U', 'V', 'W'], ['X', 'Y', 'Z']]
 
 class TexasLicenseeCrawler:
     """
@@ -64,7 +64,7 @@ class TexasLicenseeCrawler:
         self.chrome_options.add_argument("--disable-dev-shm-usage")
 
         # Search filters and configurations
-        self.search_filters_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ']
+        self.search_filters_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
         # self.excep_searcher = [] #this is exception searcher
 
         # Professional names with license type

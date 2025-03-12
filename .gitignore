@@ -31,3 +31,4 @@ results/
 *.bak
 *.swp
 *.tmp
+*results
