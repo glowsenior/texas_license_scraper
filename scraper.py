@@ -18,6 +18,7 @@ import colorama
 from pathlib import Path
 from threading import Lock
 from colorama import Back, Fore, Style
+import undetected_chromedriver as uc
 import urllib3
 from selenium.common.exceptions import StaleElementReferenceException, ElementClickInterceptedException
 from selenium.common import TimeoutException, NoSuchElementException
@@ -25,7 +26,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
-import undetected_chromedriver as uc
 
 # Initialize colorama for colored console output
 colorama.init(autoreset=True)
@@ -64,7 +64,7 @@ class TexasLicenseeCrawler:
         self.chrome_options.add_argument("--disable-dev-shm-usage")
 
         # Search filters and configurations
-        self.search_filters_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+        self.search_filters_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ']
         # self.excep_searcher = [] #this is exception searcher
 
         # Professional names with license type
