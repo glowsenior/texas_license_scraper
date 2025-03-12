@@ -25,7 +25,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
-from undetected_chromedriver import uc
+import undetected_chromedriver as uc
 
 # Initialize colorama for colored console output
 colorama.init(autoreset=True)
