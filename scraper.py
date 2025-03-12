@@ -312,7 +312,7 @@ class TexasLicenseeCrawler:
     def run(self):
         """Run the crawler."""
         path = ChromeDriverManager().install()
-        self.driver = uc.Chrome(options=self.chrome_options, headless=False, driver_executable_path=path)
+        self.driver = uc.Chrome(options=self.chrome_options, headless=True, driver_executable_path=path)
 
         # Write CSV headers
         with open(self.output_file, 'w', newline='', encoding='utf-8') as csvfile:
