@@ -26,6 +26,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options as ChromeOptions
 
 # Initialize colorama for colored console output
 colorama.init(autoreset=True)
@@ -54,7 +55,7 @@ class TexasLicenseeCrawler:
         self.prefix = prefix
 
         # Chrome options and preferences
-        self.chrome_options = uc.ChromeOptions()
+        self.chrome_options = ChromeOptions()
         self.chrome_options.add_argument("--disable-extensions")
         self.chrome_options.add_argument("--disable-popup-blocking")
         self.chrome_options.add_argument("--ignore-certificate-errors")
