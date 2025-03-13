@@ -64,7 +64,7 @@ class TexasLicenseeCrawler:
         self.chrome_options.add_argument("--disable-dev-shm-usage")
 
         # Search filters and configurations
-        self.search_filters_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ']
+        self.search_filters_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
         # self.excep_searcher = [] #this is exception searcher
 
         # Professional names with license type
