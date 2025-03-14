@@ -36,8 +36,7 @@ warnings.filterwarnings('ignore', category=urllib3.exceptions.InsecureRequestWar
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
-
-search_init_filters_letters = [['B', 'C', 'T'], ['U', 'V', 'W'], ['X', 'Y', 'Z']]
+search_init_filters_letters = [['A', 'D', 'K', 'L', 'T', 'U', 'V', 'Z'], ['C', 'F', 'G', 'M', 'N', 'O', 'W', 'X', 'Y'], ['B', 'E', 'H', 'I', 'J', 'P', 'Q', 'R', 'S']]
 
 class TexasLicenseeCrawler:
     """
@@ -197,8 +196,8 @@ class TexasLicenseeCrawler:
     def dataInput(self, name, license, status, professional, issuance_date, expiration_date):
         """Prepare and save data to CSV."""
         fields = {
-            "Full_Name": name.text.replace(' ', '').split(',')[0],
-            "License_Type": name.text.replace(' ', '').split(',')[1],
+            "Full_Name": name.text.split(',')[0],
+            "License_Type": name.text.split(',')[1],
             "License_Number": license.text,
             "Issued": issuance_date.text,
             "Expired": expiration_date.text,
