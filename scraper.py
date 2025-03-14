@@ -260,6 +260,7 @@ class TexasLicenseeCrawler:
 
     def advancedPrefixSearch(self, prefixs, depth=0):
         """Perform an advanced search using prefixes."""
+        flag = 0
         for prefix in prefixs:
             if self.extra(prefix):
                 continue
@@ -270,6 +271,7 @@ class TexasLicenseeCrawler:
                 # self.excep_searcher.append(prefix)
                 continue
             if len(userlists) < 50:
+                flag += len(userlists)
                 print(f"{Fore.YELLOW + prefix +Fore.RESET if depth == 0 else f"Ͱ----{Fore.YELLOW + prefix +Fore.RESET}" if depth == 1 else f'|{'    '*(depth-1)}└---{Fore.YELLOW + prefix +Fore.RESET}'} : {Back.LIGHTBLUE_EX + Fore.LIGHTRED_EX} {len(userlists)} " )
                 # self.excep_searcher.append(prefix)
                 self.write_excep_searcher(prefix, mode='a')
@@ -304,9 +306,44 @@ class TexasLicenseeCrawler:
                         print(f"--------------------------------------------------------------{Back.RED}Unexpected error: {Back.RESET}{Fore.CYAN}{e}")
                 continue
             else:
+                flag += len(userlists)
                 print(f"{Fore.YELLOW + prefix +Fore.RESET if depth == 0 else f"Ͱ----{Fore.YELLOW + prefix +Fore.RESET}" if depth == 1 else f'|{'    '*(depth-1)}└---{Fore.YELLOW + prefix +Fore.RESET}'} : {Back.LIGHTMAGENTA_EX + Fore.LIGHTCYAN_EX}MANY")
             addLetterPrefixes = self.generateAddLetterPrefixes(prefix)
             self.advancedPrefixSearch(addLetterPrefixes, depth + 1)
+        if(flag < 50):
+            userlists = self.searchList(prefixs[0][:-1])
+            print(f"{Fore.YELLOW + prefix +Fore.RESET if depth == 0 else f"Ͱ----{Fore.YELLOW + prefix +Fore.RESET}" if depth == 1 else f'|{'    '*(depth-1)}└---{Fore.YELLOW + prefix +Fore.RESET}'} : {Back.LIGHTBLUE_EX + Fore.LIGHTRED_EX} {len(userlists)} " )
+            # self.excep_searcher.append(prefix)
+            for user in userlists:
+                try:
+                    if user is None:
+                        print(f"---------------------------------------------------------------{Back.LIGHTYELLOW_EX}Warning: Found a None element in userlists.")
+                        continue
+                    
+                    user_text = user.text.strip()
+                    if not user_text:
+                        print(f"---------------------------------------------------------------{Back.LIGHTYELLOW_EX}Warning: User element has no text.")
+                        continue
+                    
+                    self.driver.execute_script("arguments[0].scrollIntoView();", user)
+                    WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable(user))
+                    user.click()
+                    
+                    self.waited_for_windows_load(self.driver)
+                    self.scraping_get_data(prefix, depth)
+                
+                except StaleElementReferenceException:
+                    print(f"--------------------------------------------------------------{Back.LIGHTRED_EX}Error: StaleElementReferenceException - Retrying search.")
+                except ElementClickInterceptedException:
+                    print(f"--------------------------------------------------------------{Back.LIGHTRED_EX}Error: ElementClickInterceptedException - Could not click the element.")
+                    self.driver.execute_script("arguments[0].click();", user)
+                except NoSuchElementException:
+                    print(f"--------------------------------------------------------------{Back.LIGHTRED_EX}Error: NoSuchElementException - Element not found.")
+                except TimeoutException:
+                    print(f"--------------------------------------------------------------{Back.LIGHTRED_EX}Error: TimeoutException - Page did not load in time.")
+                except Exception as e:
+                    print(f"--------------------------------------------------------------{Back.RED}Unexpected error: {Back.RESET}{Fore.CYAN}{e}")
+            
 
     def run(self):
         """Run the crawler."""
